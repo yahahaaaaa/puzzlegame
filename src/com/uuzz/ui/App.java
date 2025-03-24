@@ -7,8 +7,8 @@ public class App {
         //创建游戏界面
         GameJframe gameJframe = new GameJframe();
         //创建登录界面
-        LoginJframe loginJframe = new LoginJframe();
+        //LoginJframe loginJframe = new LoginJframe();
         //创建注册界面
-        RegistJframe registJframe = new RegistJframe();
+        //RegistJframe registJframe = new RegistJframe();
     }
 }
