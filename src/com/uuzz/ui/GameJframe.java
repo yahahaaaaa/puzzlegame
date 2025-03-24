@@ -1,0 +1,26 @@
+package com.uuzz.ui;
+
+import javax.swing.*;
+
+public class GameJframe extends JFrame {
+    public GameJframe(){
+        //设置界面大小
+        this.setSize(600,680);
+        //设置标题
+        this.setTitle("拼图 v1.0");
+        //设置界面置顶
+        this.setAlwaysOnTop(true);
+        //设置默认位置
+        this.setLocationRelativeTo(null);
+        //设置关闭模式
+        this.setDefaultCloseOperation(3);
+
+
+
+        this.setVisible(true);
+    }
+    public GameJframe(int width,int height){
+        this.setSize(width,height);
+    }
+
+}
