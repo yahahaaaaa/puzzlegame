@@ -8,9 +8,13 @@ import java.util.Random;
 public class GameJframe extends JFrame implements KeyListener {
     //二维数组保存图片顺序
     int[][] data = new int[10][10];
+    //图片分割后的拼图数量
+    int imageNumber = 100;
     //空白位置索引
     int x = 0;
     int y = 0;
+    //正确答案的二维数组
+    int[][] win = new int[10][10];
 
     public GameJframe(){
         //初始化界面
@@ -27,8 +31,7 @@ public class GameJframe extends JFrame implements KeyListener {
 
     private void initData() {
         //创建一维数组并打乱索引顺序
-        int imageNumber = 100;
-        int[] tempArr = new int[100];
+        int[] tempArr = new int[imageNumber];
         for (int i = 0;i < imageNumber;i++){
             tempArr[i] = i;
         }
@@ -55,7 +58,10 @@ public class GameJframe extends JFrame implements KeyListener {
     private void initImage() {
         //清空所有已加载图片
         this.getContentPane().removeAll();
-
+        //判断是否胜利
+        if(victory()){
+            System.out.println("你比泰森还牛逼");
+        }
         for (int i = 0;i < 10;i++){
             for (int j = 0;j < 10;j++){
                 int num = data[i][j];
@@ -115,14 +121,26 @@ public class GameJframe extends JFrame implements KeyListener {
     public void keyTyped(KeyEvent e) {
 
     }
-
+    //按下不松时触发，查看完整图片
     @Override
     public void keyPressed(KeyEvent e) {
-
+        int code = e.getKeyCode();
+        if (code == 65){
+            this.getContentPane().removeAll();
+            JLabel all = new JLabel(new ImageIcon("image/羽ちゃ/切割后图片/images/all.png"));
+            all.setBounds(0,0,1920,1080);
+            this.getContentPane().add(all);
+            this.getContentPane().repaint();
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        //判断游戏是否胜利，如过游戏胜利，无法继续移动图片
+        if(victory()){
+            return;
+        }
+        //判断键盘的方向键输入，并移动图片位置
         int code = e.getKeyCode();
         if(code == 37 && x != 9){
             System.out.println("向左移动");
@@ -144,7 +162,31 @@ public class GameJframe extends JFrame implements KeyListener {
             data[x][y] = data[x][y-1];
             data[x][y-1] = 0;
             y--;
+        }else if(code == 65){
+            initImage();
         }
         initImage();
+    }
+    //判断是否完成游戏
+    public boolean victory(){
+        int count = 1;
+        for(int i = 0;i < data.length;i++){
+            for(int j = 0;j < data[i].length;j++){
+                if(i == data.length-1 && j == data[i].length-1){
+                    win[i][j] = 0;
+                    break;
+                }
+                win[i][j] += count;
+                count += 1;
+            }
+        }
+        for (int i = 0;i < data.length;i++){
+            for(int j = 0;j < data[i].length;j++){
+                if (data[i][j] != win[i][j]){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
