@@ -1,30 +1,55 @@
 package com.uuzz.ui;
 
 import javax.swing.*;
+import java.util.Random;
 
 public class GameJframe extends JFrame {
+    //二维数组保存图片顺序
+    int[][] data = new int[10][10];
     public GameJframe(){
         //初始化界面
         initJFrame();
         //初始化菜单栏
         initJMenuBar();
-        //初始化图片
+        //打乱图片
+        initData();
+        //加载图片
         initImage();
         
         this.setVisible(true);
     }
 
+    private void initData() {
+        //创建一维数组并打乱索引顺序
+        int imageNumber = 100;
+        int[] tempArr = new int[100];
+        for (int i = 0;i < imageNumber;i++){
+            tempArr[i] = i + 1;
+        }
+        Random r = new Random();
+        for (int i = 0;i < tempArr.length;i++){
+            int index = r.nextInt(tempArr.length);
+            int temp = tempArr[i];
+            tempArr[i] = tempArr[index];
+            tempArr[index] = temp;
+        }
+        //将打乱的一维索引存入二维数组
+        for (int i = 0;i < tempArr.length;i++){
+            data[i / 10][i % 10] = tempArr[i];
+        }
+
+    }
+
     private void initImage() {
-        int number = 1;
         for (int i = 0;i < 10;i++){
             for (int j = 0;j < 10;j++){
+                int num = data[i][j];
                 //创建JLabel对象(管理容器)
-                JLabel jLabel1 = new JLabel(new ImageIcon("image/羽ちゃ/切割后图片/images/"+number+".gif"));
+                JLabel jLabel1 = new JLabel(new ImageIcon("image/羽ちゃ/切割后图片/images/"+num+".gif"));
                 //设定图片位置
                 jLabel1.setBounds(192*i,108*j,192,108);
                 //将容器添加到界面中
                 this.getContentPane().add(jLabel1);
-                number++;
             }
         }
     }
