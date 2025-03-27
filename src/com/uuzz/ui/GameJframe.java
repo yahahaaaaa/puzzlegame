@@ -15,14 +15,18 @@ public class GameJframe extends JFrame {
     }
 
     private void initImage() {
-        //创建一个图片ImageIcon对象
-        ImageIcon icon = new ImageIcon("E:\\java_project\\puzzlegame\\image\\羽ちゃ\\78790789_p0.jpg");
-        //创建JLabel对象(管理容器)
-        JLabel jLabel = new JLabel(icon);
-        //设定图片位置
-        jLabel.setBounds(0,0,105,105);
-        //将容器添加到界面中
-        this.getContentPane().add(jLabel);
+        int number = 1;
+        for (int i = 0;i < 10;i++){
+            for (int j = 0;j < 10;j++){
+                //创建JLabel对象(管理容器)
+                JLabel jLabel1 = new JLabel(new ImageIcon("image/羽ちゃ/切割后图片/images/"+number+".gif"));
+                //设定图片位置
+                jLabel1.setBounds(192*i,108*j,192,108);
+                //将容器添加到界面中
+                this.getContentPane().add(jLabel1);
+                number++;
+            }
+        }
     }
 
     private void initJMenuBar() {
@@ -50,7 +54,7 @@ public class GameJframe extends JFrame {
 
     private void initJFrame() {
         //设置界面大小
-        this.setSize(600,680);
+        this.setSize(1920,1200);
         //设置标题
         this.setTitle("拼图 v1.0");
         //设置界面置顶
