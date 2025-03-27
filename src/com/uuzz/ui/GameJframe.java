@@ -1,11 +1,17 @@
 package com.uuzz.ui;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Random;
 
-public class GameJframe extends JFrame {
+public class GameJframe extends JFrame implements KeyListener {
     //二维数组保存图片顺序
     int[][] data = new int[10][10];
+    //空白位置索引
+    int x = 0;
+    int y = 0;
+
     public GameJframe(){
         //初始化界面
         initJFrame();
@@ -24,7 +30,7 @@ public class GameJframe extends JFrame {
         int imageNumber = 100;
         int[] tempArr = new int[100];
         for (int i = 0;i < imageNumber;i++){
-            tempArr[i] = i + 1;
+            tempArr[i] = i;
         }
         Random r = new Random();
         for (int i = 0;i < tempArr.length;i++){
@@ -35,12 +41,21 @@ public class GameJframe extends JFrame {
         }
         //将打乱的一维索引存入二维数组
         for (int i = 0;i < tempArr.length;i++){
-            data[i / 10][i % 10] = tempArr[i];
+            if(tempArr[i] == 0){
+                x = i / 10;
+                y = i % 10;
+                System.out.println("空白位置是"+x+","+y);
+            }else{
+                data[i / 10][i % 10] = tempArr[i];
+            }
         }
 
     }
 
     private void initImage() {
+        //清空所有已加载图片
+        this.getContentPane().removeAll();
+
         for (int i = 0;i < 10;i++){
             for (int j = 0;j < 10;j++){
                 int num = data[i][j];
@@ -52,6 +67,8 @@ public class GameJframe extends JFrame {
                 this.getContentPane().add(jLabel1);
             }
         }
+        //刷新界面
+        this.getContentPane();repaint();
     }
 
     private void initJMenuBar() {
@@ -90,6 +107,44 @@ public class GameJframe extends JFrame {
         this.setDefaultCloseOperation(3);
         //取消图片默认位置设置
         this.setLayout(null);
+        //添加键盘监听事件
+        this.addKeyListener(this);
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int code = e.getKeyCode();
+        if(code == 37 && x != 9){
+            System.out.println("向左移动");
+            data[x][y] = data[x+1][y];
+            data[x+1][y] = 0;
+            x++;
+        }else if(code == 38 && y != 9){
+            System.out.println("向上移动");
+            data[x][y] = data[x][y+1];
+            data[x][y+1] = 0;
+            y++;
+        }else if(code == 39 && x != 0){
+            System.out.println("向右移动");
+            data[x][y] = data[x-1][y];
+            data[x-1][y] = 0;
+            x--;
+        }else if(code == 40 && y != 0){
+            System.out.println("向下移动");
+            data[x][y] = data[x][y-1];
+            data[x][y-1] = 0;
+            y--;
+        }
+        initImage();
+    }
 }
